@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from insert_data_last_doc import add_data
+from insert_data_last_doc import add_data, verify_chain_integrity
 import uvicorn
 from fetch_data import fetch_all_documents
 import json
@@ -43,6 +43,18 @@ async def get_all_data():
 @app.get("/")
 async def root():
     return {"message": "Welcome to the FastAPI POST example"}
+
+@app.get("/check_chain_integrity")
+async def check_chain_integrity():
+    resp = verify_chain_integrity()
+    print(resp)
+    if resp:
+        return {"Integriry": True,
+            "message": "Chain integrity verified"}
+    
+    return {"Integriry": False,
+            "message": "Chain integrity not verified"}
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8011)

@@ -166,8 +166,9 @@ def add_data(data):
     except Exception as e:
         print(e)
 # Execute
-if __name__ == "__main__":
-    add_data({"test":1})
+# if __name__ == "__main__":
+    # add_data({"test":1})
+    # verify_chain_integrity()
 # new_data = {
 #     "dataType": "gps",
 #     "identifier": "truck_1214",
