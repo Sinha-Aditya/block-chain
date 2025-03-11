@@ -2,28 +2,39 @@ package com.example.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.nio.charset.StandardCharsets;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "documents")
+import java.util.Map;
+
+@Document(collection = "documents")  // Replace with your actual collection name
 public class BlockchainDocument {
 
     @Id
-    private String id;
-    private String prevHash;
+    private String id;  // Maps to "_id" in MongoDB
+
+    private Object data;  // Can be String, Number, or JSON (Map)
     private String hash;
+    private String signature;
+    @Field("verify_key")
+    private String verifyKey;
+    @Field("prev_hash")
+    private String prevHash;
+    private double timestamp;
     private int sequence;
-    private DocumentData data;
 
     // Constructors
     public BlockchainDocument() {}
 
-    public BlockchainDocument(String prevHash, int sequence, DocumentData data) {
-        this.prevHash = prevHash;
-        this.sequence = sequence;
+    public BlockchainDocument(String id, Object data, String hash, String signature,
+                              String verifyKey, String prevHash, double timestamp, int sequence) {
+        this.id = id;
         this.data = data;
-        this.hash = generateHash();
+        this.hash = hash;
+        this.signature = signature;
+        this.verifyKey = verifyKey;
+        this.prevHash = prevHash;
+        this.timestamp = timestamp;
+        this.sequence = sequence;
     }
 
     // Getters and Setters
@@ -35,12 +46,12 @@ public class BlockchainDocument {
         this.id = id;
     }
 
-    public String getPrevHash() {
-        return prevHash;
+    public Object getData() {
+        return data;
     }
 
-    public void setPrevHash(String prevHash) {
-        this.prevHash = prevHash;
+    public void setData(Object data) {
+        this.data = data;
     }
 
     public String getHash() {
@@ -51,6 +62,38 @@ public class BlockchainDocument {
         this.hash = hash;
     }
 
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public String getVerifyKey() {
+        return verifyKey;
+    }
+
+    public void setVerifyKey(String verifyKey) {
+        this.verifyKey = verifyKey;
+    }
+
+    public String getPrevHash() {
+        return prevHash;
+    }
+
+    public void setPrevHash(String prevHash) {
+        this.prevHash = prevHash;
+    }
+
+    public double getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(double timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public int getSequence() {
         return sequence;
     }
@@ -59,40 +102,31 @@ public class BlockchainDocument {
         this.sequence = sequence;
     }
 
-    public DocumentData getData() {
-        return data;
-    }
-
-    public void setData(DocumentData data) {
-        this.data = data;
-    }
-
-    /**
-     * Generates a SHA-256 hash for the document.
-     */
-    public String generateHash() {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            String input = prevHash + sequence + data.toString();
-            byte[] hashBytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hashBytes) {
-                hexString.append(String.format("%02x", b));
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error generating hash", e);
+    // Helper method to get data as Map if it's JSON
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> getDataAsMap() {
+        if (data instanceof Map) {
+            return (Map<String, Object>) data;
         }
+        return null;
     }
 
-    @Override
-    public String toString() {
-        return "BlockchainDocument{" +
-                "id='" + id + '\'' +
-                ", prevHash='" + prevHash + '\'' +
-                ", hash='" + hash + '\'' +
-                ", sequence=" + sequence +
-                ", data=" + data +
-                '}';
-    }
+    //public void setIdentifier(String tampered) {
+    //}
+
+    // Helper method to get data as String
+//    public String getDataAsString() {
+//        if (data instanceof String) {
+//            return (String) data;
+//        }
+//        return null;
+//    }
+
+    // Helper method to get data as Number
+//    public Number getDataAsNumber() {
+//        if (data instanceof Number) {
+//            return (Number) data;
+//        }
+//        return null;
+//    }
 }
