@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: block-chain-api-gateway
+  # Note: We're not using the explicit route definitions here anymore,
+  # they're defined in RouteConfig.java
+
+# JWT Configuration (must match the auth service)
+jwt:
+  secret: blockchain_microservice_security_key_must_be_very_long_and_secure
+
+# Actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+# Logging configuration
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway: DEBUG
+    com.example.gateway: DEBUG 

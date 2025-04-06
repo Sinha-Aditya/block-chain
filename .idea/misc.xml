@@ -3,7 +3,18 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.10 (python_bigchaindb)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="bigchaindb_env" project-jdk-type="Python SDK" />
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/block-chain-api-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/block-chain/pom.xml" />
+        <option value="$PROJECT_DIR$/block-chain-auth/pom.xml" />
+        <option value="$PROJECT_DIR$/block-chain-data-retrieve/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="openjdk-23" project-jdk-type="JavaSDK" />
   <component name="PythonCompatibilityInspectionAdvertiser">
     <option name="version" value="3" />
   </component>

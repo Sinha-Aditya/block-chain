@@ -69,21 +69,21 @@ public class DataController {
         }
     }
 
-    @GetMapping("/get-all-data")
-    public ResponseEntity<Map<String, Object>> getAllData() {
-        try {
-            Mono<String> response = webClient.get()
-                    .uri("/get_all_data")
-                    .retrieve()
-                    .bodyToMono(String.class);
+    // @GetMapping("/get-all-data")
+    // public ResponseEntity<Map<String, Object>> getAllData() {
+    //     try {
+    //         Mono<String> response = webClient.get()
+    //                 .uri("/get_all_data")
+    //                 .retrieve()
+    //                 .bodyToMono(String.class);
 
-            String result = response.block();
-            return ResponseEntity.ok(Map.of("response", result));
-        } catch (Exception e) {
-            return ResponseEntity.status(500)
-                    .body(Map.of("error", "Error fetching data: " + e.getMessage()));
-        }
-    }
+    //         String result = response.block();
+    //         return ResponseEntity.ok(Map.of("response", result));
+    //     } catch (Exception e) {
+    //         return ResponseEntity.status(500)
+    //                 .body(Map.of("error", "Error fetching data: " + e.getMessage()));
+    //     }
+    // }
     @GetMapping("/check_chain_integrity")
     public ResponseEntity<Map<String, Object>>checkChainIntegrity(){
         try {

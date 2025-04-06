@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - blockchain-network
+
+  auth-service:
+    build: ./block-chain-auth
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/auth_db
+    depends_on:
+      - mongodb
+    networks:
+      - blockchain-network
+
+  data-retrieve-service:
+    build: ./block-chain-data-retrieve
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/secure_db
+      - BLOCKCHAIN_VERIFY_URL=http://gateway:8080/blockchain/check_chain_integrity
+    depends_on:
+      - mongodb
+    networks:
+      - blockchain-network
+
+  analytics-service:
+    build: ./block-chain-analytics
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/analytics_db
+    depends_on:
+      - mongodb
+    networks:
+      - blockchain-network
+
+  audit-service:
+    build: ./block-chain-audit
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/audit_db
+    depends_on:
+      - mongodb
+    networks:
+      - blockchain-network
+
+  gateway:
+    build: ./block-chain-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - AUTH_SERVICE_URL=http://auth-service:8081
+      - DATA_RETRIEVE_SERVICE_URL=http://data-retrieve-service:8083
+      - ANALYTICS_SERVICE_URL=http://analytics-service:8082
+      - AUDIT_SERVICE_URL=http://audit-service:8084
+    depends_on:
+      - auth-service
+      - data-retrieve-service
+      - analytics-service
+      - audit-service
+    networks:
+      - blockchain-network
+
+networks:
+  blockchain-network:
+
+volumes:
+  mongodb_data: 

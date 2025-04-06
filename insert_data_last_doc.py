@@ -154,17 +154,23 @@ def insert_document(data):
 
 def add_data(data):
     try:
-        new_data = {"data": data}
-        # new_data.add({"timestamp": time.time()})
-        new_data.update({"timestamp": time.time()})
-        resp = insert_document(new_data)
+        # Add timestamp directly to the original data instead of nesting it
+        data["timestamp"] = time.time()
+        
+        # Now pass the data directly to insert_document
+        resp = insert_document(data)
+        
         print("ADI", resp)
         if resp:
-            return{"message": "Data added successfully",
-                   "data": new_data}
+            return {
+                "message": "Data added successfully",
+                "data": data
+            }
         return {"message": "Data not added integrity error"}
     except Exception as e:
         print(e)
+        return {"message": f"Error: {str(e)}"}
+
 # Execute
 # if __name__ == "__main__":
     # add_data({"test":1})
