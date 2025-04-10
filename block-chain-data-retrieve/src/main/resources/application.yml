@@ -1,0 +1,13 @@
+server:
+  port: 8084  # Choose an appropriate port
+
+spring:
+  application:
+    name: blockchain-service  # This name should match what the API Gateway is looking for
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true 

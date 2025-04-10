@@ -1,0 +1,33 @@
+curl http://localhost:8080/mail/recipients
+{
+  "recipients": ["aditya.sinha1342@gmail.com", "another-email@example.com"],
+  "count": 2
+}
+
+
+
+curl -X POST http://localhost:8080/mail/recipients \
+  -H "Content-Type: application/json" \
+  -d '{"email": "new-recipient@example.com"}'
+{
+  "success": true,
+  "message": "Recipient added successfully",
+  "recipients": ["aditya.sinha1342@gmail.com", "another-email@example.com", "new-recipient@example.com"]
+}
+
+
+curl -X DELETE http://localhost:8080/mail/recipients/another-email@example.com
+{
+  "success": true,
+  "message": "Recipient removed successfully",
+  "recipients": ["aditya.sinha1342@gmail.com", "new-recipient@example.com"]
+}
+
+
+curl -X POST http://localhost:8080/mail/test-email \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test-recipient@example.com"}'
+{
+  "success": true,
+  "message": "Test email sent successfully"
+}
